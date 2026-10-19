@@ -3,105 +3,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F7F5EF">
-  <meta name="description" content="Discover events, book tickets and experience more with Danttel Tix.">
+  <meta name="description" content="Discover events and book experiences with Danttel Tix.">
   <title>Danttel Tix — Discover Experiences</title>
+
   <style>
     :root {
       --bg: #F7F5EF;
-      --surface: #FFFFFF;
+      --white: #FFFFFF;
       --green: #187A54;
       --green-dark: #10583D;
       --text: #20251F;
       --muted: #687068;
       --border: #E4E5DC;
-      --soft-green: #E7F1E9;
+      --soft: #E7F1E9;
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
     }
 
     a { color: inherit; text-decoration: none; }
     button, input { font: inherit; }
 
-    .wrap {
-      width: min(1120px, 92%);
-      margin: auto;
-    }
+    .wrap { width: min(1100px, 92%); margin: auto; }
 
     header {
-      background: rgba(247, 245, 239, .96);
       border-bottom: 1px solid var(--border);
+      background: var(--bg);
     }
 
     .nav {
-      min-height: 76px;
+      min-height: 72px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    .logo {
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-
+    .logo { font-size: 21px; font-weight: 900; }
     .logo span { color: var(--green); }
 
     .navlinks {
       display: flex;
-      gap: 22px;
       align-items: center;
+      gap: 16px;
     }
 
     .navlinks a:not(.btn) {
-      color: var(--muted);
       font-size: 14px;
-      font-weight: 600;
+      color: var(--muted);
     }
 
     .btn {
+      display: inline-block;
       border: 1px solid var(--green);
       border-radius: 10px;
       background: var(--green);
       color: white;
-      padding: 12px 17px;
+      padding: 12px 16px;
       font-weight: 750;
       cursor: pointer;
-      display: inline-block;
-      transition: background .2s, transform .2s;
     }
 
-    .btn:hover {
-      background: var(--green-dark);
-      transform: translateY(-1px);
-    }
+    .btn:hover { background: var(--green-dark); }
+    .btn:disabled { opacity: .6; cursor: wait; }
 
-    .btn-outline {
-      background: transparent;
+    .outline {
       color: var(--green);
+      background: transparent;
     }
 
-    .btn-outline:hover {
-      background: var(--soft-green);
-      color: var(--green-dark);
-    }
-
-    .hero {
-      padding: 86px 0 74px;
-    }
+    .hero { padding: 75px 0 55px; }
 
     .eyebrow {
       color: var(--green);
@@ -112,275 +92,433 @@
     }
 
     h1 {
-      font-size: clamp(40px, 7vw, 76px);
-      line-height: 1.04;
-      letter-spacing: -3px;
-      max-width: 800px;
-      margin: 20px 0;
-      font-weight: 850;
+      font-size: clamp(40px, 8vw, 72px);
+      letter-spacing: -2.5px;
+      line-height: 1.05;
+      margin: 18px 0;
     }
 
     h1 span { color: var(--green); }
 
-    .hero p {
-      max-width: 570px;
+    .hero p, .host p {
       color: var(--muted);
-      line-height: 1.85;
-      font-size: 16px;
+      line-height: 1.8;
+      max-width: 570px;
     }
 
     .actions {
       display: flex;
-      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 27px;
+      gap: 12px;
+      margin-top: 24px;
     }
 
-    .searchbar {
-      display: flex;
-      gap: 10px;
-      margin-top: 32px;
-      max-width: 620px;
+    section { padding: 35px 0 65px; }
+    h2 { font-size: 28px; margin: 0 0 9px; }
+    .sub { color: var(--muted); }
+
+    .auth-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
     }
 
-    .searchbar input {
-      flex: 1;
-      min-width: 0;
-      padding: 15px;
-      background: var(--surface);
+    .auth-card {
+      background: var(--white);
       border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 8px 30px rgba(32, 37, 31, .04);
+    }
+
+    .auth-card h2 { font-size: 25px; }
+
+    .field { margin-top: 16px; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #D8DDD4;
+      border-radius: 9px;
+      background: #fff;
       color: var(--text);
-      border-radius: 10px;
       outline-color: var(--green);
     }
 
-    .searchbar input::placeholder { color: #858B82; }
-
-    section { padding: 34px 0 70px; }
-
-    .sectionhead {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 25px;
+    .auth-card form > .btn {
+      width: 100%;
+      margin-top: 20px;
     }
 
-    h2 {
-      font-size: 29px;
-      letter-spacing: -.8px;
-      margin: 0 0 9px;
+    .switch {
+      border: 0;
+      background: transparent;
+      color: var(--green);
+      font-weight: 750;
+      padding: 8px 0;
+      cursor: pointer;
     }
 
-    .sub { color: var(--muted); margin: 0; }
+    .notice {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 9px;
+      background: var(--soft);
+      color: var(--green-dark);
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .notice.error {
+      background: #FCEAE7;
+      color: #922F22;
+    }
+
+    .account {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 12px;
+      background: var(--soft);
+      overflow-wrap: anywhere;
+    }
+
+    .account p { line-height: 1.6; }
 
     .event-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
+      gap: 18px;
+      margin-top: 22px;
     }
 
-    .event {
-      background: var(--surface);
-      color: var(--text);
-      border-radius: 16px;
-      overflow: hidden;
+    .event-card {
+      background: white;
       border: 1px solid var(--border);
-      box-shadow: 0 5px 18px rgba(35, 48, 35, .035);
-    }
-
-    .event-art {
-      height: 165px;
-      display: grid;
-      place-items: center;
-      font-size: 48px;
-      background: linear-gradient(135deg, #E1EFE3, #F2EDE0);
-    }
-
-    .event-body { padding: 20px; }
-
-    .tag {
-      display: inline-block;
-      border-radius: 6px;
-      padding: 6px 9px;
-      background: var(--soft-green);
-      color: var(--green-dark);
-      font-size: 11px;
-      font-weight: 850;
-    }
-
-    .event h3 {
-      margin: 14px 0 8px;
-      font-size: 19px;
-    }
-
-    .event p {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .event-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    .event-bottom strong { font-size: 14px; }
-
-    .event-bottom button {
-      padding: 9px 12px;
-      font-size: 12px;
+      border-radius: 15px;
+      padding: 20px;
     }
 
     .empty {
-      padding: 35px;
+      grid-column: 1 / -1;
+      padding: 28px;
       border: 1px dashed #C9D2C7;
-      border-radius: 14px;
+      border-radius: 12px;
       color: var(--muted);
       text-align: center;
-      grid-column: 1 / -1;
-      background: rgba(255,255,255,.55);
     }
 
     .host {
       background: #E9F0E7;
       border: 1px solid #D9E4D7;
-      border-radius: 20px;
-      padding: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .host p {
-      color: #59675A;
-      line-height: 1.8;
-      max-width: 600px;
+      border-radius: 18px;
+      padding: 28px;
     }
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 27px 0;
+      padding: 25px 0;
       color: var(--muted);
       font-size: 13px;
     }
 
     .foot {
       display: flex;
-      justify-content: space-between;
-      gap: 15px;
       flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    @media (max-width: 760px) {
-      .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .navlinks { gap: 12px; }
-      .navlinks .optional { display: none; }
-      .hero { padding-top: 60px; }
-      h1 { letter-spacing: -1.8px; }
-      .host { align-items: flex-start; flex-direction: column; }
-    }
-
-    @media (max-width: 480px) {
+    @media (max-width: 700px) {
+      .auth-layout { grid-template-columns: 1fr; }
       .event-grid { grid-template-columns: 1fr; }
-      .searchbar { flex-direction: column; }
-      .sectionhead { align-items: flex-start; flex-direction: column; }
+      .hero { padding-top: 50px; }
+      h1 { letter-spacing: -1.5px; }
+      .navlinks { gap: 10px; }
       .navlinks a { font-size: 12px; }
-      .logo { font-size: 19px; }
-      .hero { padding: 48px 0; }
-      .host { padding: 24px; }
+      .optional { display: none; }
+      .auth-card { padding: 20px; }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <div class="wrap nav">
-      <a class="logo" href="#">DANTTEL <span>TIX</span></a>
-      <nav class="navlinks">
-        <a href="#events">Explore</a>
-        <a class="optional" href="#organizers">For organizers</a>
-        <a class="btn" href="#events">Find tickets</a>
-      </nav>
-    </div>
-  </header>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">DANTTEL <span>TIX</span></a>
+    <nav class="navlinks">
+      <a href="#events">Explore</a>
+      <a class="optional" href="#organizers">Organizers</a>
+      <a class="btn" href="#account">My account</a>
+    </nav>
+  </div>
+</header>
 
-  <main>
-    <div class="wrap hero">
-      <div class="eyebrow">Your next experience starts here</div>
-      <h1>Life happens <span>outside.</span><br>Be there.</h1>
-      <p>
-        Discover concerts, conferences, festivals and unforgettable
-        experiences. Find your people and book your next event with Danttel Tix.
+<main>
+  <div class="wrap hero">
+    <div class="eyebrow">Your next experience starts here</div>
+    <h1>Life happens <span>outside.</span><br>Be there.</h1>
+    <p>
+      Discover concerts, conferences, festivals and unforgettable
+      experiences. Find your people and book your next event with Danttel Tix.
+    </p>
+    <div class="actions">
+      <a class="btn" href="#events">Explore events ↗</a>
+      <a class="btn outline" href="#account">Create an account</a>
+    </div>
+  </div>
+
+  <section id="account">
+    <div class="wrap auth-layout">
+      <div>
+        <div class="eyebrow">Your Danttel account</div>
+        <h2>Good experiences start here.</h2>
+        <p class="sub">
+          Create an account to get started. Organizers will be able to apply
+          for organizer access as we build the next features.
+        </p>
+      </div>
+
+      <div class="auth-card">
+        <div id="auth-form-area">
+          <h2 id="form-title">Create your account</h2>
+          <p class="sub" id="form-subtitle">Join Danttel Tix with your email.</p>
+
+          <form id="auth-form">
+            <div class="field">
+              <label for="email">Email address</label>
+              <input id="email" type="email" autocomplete="email"
+                placeholder="you@example.com" required>
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password"
+                autocomplete="new-password" minlength="6"
+                placeholder="At least 6 characters" required>
+            </div>
+
+            <button class="btn" id="submit-btn" type="submit">
+              Create account
+            </button>
+          </form>
+
+          <p id="switch-text" class="sub">
+            Already registered?
+            <button class="switch" id="switch-btn" type="button">Sign in</button>
+          </p>
+        </div>
+
+        <div id="account-panel" class="account">
+          <strong>You're signed in!</strong>
+          <p id="account-email"></p>
+          <button class="btn outline" id="signout-btn" type="button">
+            Sign out
+          </button>
+        </div>
+
+        <div id="auth-message" class="notice" role="status"
+          aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="events">
+    <div class="wrap">
+      <div class="eyebrow">Find your next experience</div>
+      <h2>Discover events</h2>
+      <p class="sub" id="event-status">
+        Published event listings will appear here when connected.
       </p>
-
-      <div class="actions">
-        <a class="btn" href="#events">Explore events ↗</a>
-        <a class="btn btn-outline" href="#organizers">Host an event</a>
+      <div class="event-grid" id="event-grid">
+        <div class="empty">
+          No events to display yet. We're preparing the event listings.
+        </div>
       </div>
-
-      <form class="searchbar" id="search-form">
-        <input id="search-input" type="search"
-          placeholder="Search events or cities..." aria-label="Search events">
-        <button class="btn" type="submit">Search</button>
-      </form>
     </div>
+  </section>
 
-    <section id="events">
-      <div class="wrap">
-        <div class="sectionhead">
-          <div>
-            <h2>Discover experiences</h2>
-            <p class="sub" id="event-status">
-              Explore events worth showing up for.
-            </p>
-          </div>
-        </div>
-        <div class="event-grid" id="event-grid">
-          <div class="empty">
-            Live event listings will appear here once the database is connected.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="organizers">
-      <div class="wrap">
-        <div class="host">
-          <div>
-            <div class="eyebrow">For event organizers</div>
-            <h2>Make your next event count.</h2>
-            <p>
-              Bring your audience together. Danttel Tix is being built to
-              support event listings, ticket sales and organizer operations.
-            </p>
-          </div>
-          <a class="btn" href="mailto:hello@danttel.com">Contact us</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap foot">
-      <span>© <span id="year"></span> Danttel Tix</span>
-      <span>Built for experiences. Starting in Nigeria 🇳🇬</span>
+  <section id="organizers">
+    <div class="wrap host">
+      <div class="eyebrow">For event organizers</div>
+      <h2>Make your next event count.</h2>
+      <p>
+        We're building tools for event publishing, ticket sales and event
+        operations. Organizer applications and approvals come next.
+      </p>
     </div>
-  </footer>
+  </section>
+</main>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="year"></span> Danttel Tix</span>
+    <span>Built for experiences. Starting in Nigeria 🇳🇬</span>
+  </div>
+</footer>
 
-    document.getElementById("search-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const term = document.getElementById("search-input").value.trim();
-      document.getElementById("event-status").textContent = term
-        ? 'Search ready for "' + term + '". Live event search is the next integration step.'
-        : "Enter an event or city to search.";
-    });
-  </script>
+<script type="module">
+  import { createClient } from
+    "https://esm.sh/@supabase/supabase-js@2";
+
+  // Replace both values with your own Supabase project details.
+  const SUPABASE_URL = "https://zkborwslpzzfrqezqczw.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_eO7qFrZacSyQezdSY1MoSA_FtjrZErX";
+
+  const form = document.getElementById("auth-form");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const submitBtn = document.getElementById("submit-btn");
+  const message = document.getElementById("auth-message");
+  const accountPanel = document.getElementById("account-panel");
+  const accountEmail = document.getElementById("account-email");
+  const switchBtn = document.getElementById("switch-btn");
+  const formTitle = document.getElementById("form-title");
+  const formSubtitle = document.getElementById("form-subtitle");
+  const switchText = document.getElementById("switch-text");
+  const authFormArea = document.getElementById("auth-form-area");
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  let isSignup = true;
+  let supabase = null;
+
+  function showMessage(text, isError = false) {
+    message.textContent = text;
+    message.className = "notice" + (isError ? " error" : "");
+    message.style.display = "block";
+  }
+
+  function setMode(signup) {
+    isSignup = signup;
+    formTitle.textContent = signup ? "Create your account" : "Welcome back";
+    formSubtitle.textContent = signup
+      ? "Join Danttel Tix with your email."
+      : "Sign in to your Danttel Tix account.";
+    submitBtn.textContent = signup ? "Create account" : "Sign in";
+    passwordInput.autocomplete = signup ? "new-password" : "current-password";
+    switchText.firstChild.textContent = signup
+      ? "Already registered? "
+      : "New to Danttel Tix? ";
+    switchBtn.textContent = signup ? "Sign in" : "Create account";
+    message.style.display = "none";
+  }
+
+  switchBtn.addEventListener("click", () => setMode(!isSignup));
+
+  function setSignedIn(user) {
+    authFormArea.style.display = "none";
+    accountPanel.style.display = "block";
+    accountEmail.textContent = user.email || "Signed-in user";
+    message.style.display = "none";
+  }
+
+  function setSignedOut() {
+    authFormArea.style.display = "block";
+    accountPanel.style.display = "none";
+  }
+
+  const configMissing =
+    SUPABASE_URL.includes("PASTE_") ||
+    SUPABASE_PUBLISHABLE_KEY.includes("PASTE_");
+
+  if (configMissing) {
+    showMessage(
+      "Setup needed: add your Supabase Project URL and publishable key in the script before using registration.",
+      true
+    );
+    submitBtn.disabled = true;
+  } else {
+    try {
+      supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) throw error;
+      if (data.session?.user) setSignedIn(data.session.user);
+
+      supabase.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) setSignedIn(session.user);
+        else setSignedOut();
+      });
+    } catch (error) {
+      showMessage("Could not connect to Supabase. Check your project URL and key.", true);
+    }
+  }
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!supabase) return;
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Please wait...";
+    message.style.display = "none";
+
+    try {
+      if (isSignup) {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: window.location.origin
+          }
+        });
+
+        if (error) throw error;
+
+        if (data.session?.user) {
+          setSignedIn(data.session.user);
+          showMessage("Your account was created successfully.");
+        } else {
+          showMessage(
+            "Registration received! Check your email and tap the confirmation link before signing in."
+          );
+        }
+      } else {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+        setSignedIn(data.user);
+        showMessage("Welcome back!");
+      }
+    } catch (error) {
+      showMessage(error.message || "Something went wrong. Please try again.", true);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = isSignup ? "Create account" : "Sign in";
+    }
+  });
+
+  document.getElementById("signout-btn").addEventListener("click", async () => {
+    if (!supabase) return;
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      showMessage(error.message, true);
+      return;
+    }
+
+    setSignedOut();
+    setMode(false);
+    showMessage("You've signed out successfully.");
+  });
+</script>
 </body>
 </html>
